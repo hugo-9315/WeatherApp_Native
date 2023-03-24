@@ -1,12 +1,5 @@
 import React, {useState} from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  ScrollView,
-} from 'react-native';
-import {Card, Button} from 'react-native-elements';
+import {Card} from 'react-native-elements';
 import styled from 'styled-components/native';
 import axios from 'axios';
 
@@ -19,7 +12,6 @@ const WeatherSearch = () => {
   const [query, setQuery] = useState('');
   const [weatherData, setWeatherData] = useState([]);
 
-  // Function to fetch weather data for the given city
   const searchWeather = async () => {
     try {
       const response = await axios.get(`${API_URL}${query}?key=${API_KEY}`);
@@ -35,35 +27,34 @@ const WeatherSearch = () => {
   };
 
   return (
-    <ScrollView>
-      {/* <Title>Search Weather</Title> */}
-      <Container>
-        <TextInput
-          style={styles.input}
-          onChangeText={setQuery}
-          value={query}
-          placeholder="Enter a city name"
-        />
-        <TouchableOpacity style={styles.button} onPress={searchWeather}>
-          <Text style={styles.buttonText}>Search</Text>
-        </TouchableOpacity>
-        {weatherData.length > 0 ? (
-          <CardContainer>
-            <Card>
-              <Card.Title>{weatherData[0].name}</Card.Title>
-              <Temperature>{weatherData[0].temperature}&deg;C</Temperature>
-              <Text>{weatherData[0].description}</Text>
-            </Card>
-          </CardContainer>
-        ) : (
-          <Text>No results</Text>
-        )}
-      </Container>
-    </ScrollView>
+    <Container>
+      <Title>Search Weather</Title>
+      <Input
+        onChangeText={setQuery}
+        value={query}
+        placeholder="Enter a city name"
+      />
+      <Button onPress={searchWeather}>
+        <ButtonText>Search</ButtonText>
+      </Button>
+      {weatherData.length > 0 ? (
+        <Card>
+          <Card.Title>{weatherData[0].name}</Card.Title>
+          <Temperature>{weatherData[0].temperature}&deg;C</Temperature>
+          <Description>{weatherData[0].description}</Description>
+        </Card>
+      ) : (
+        <NoResults>No results</NoResults>
+      )}
+    </Container>
   );
 };
 
-// Styled components
+// Style
+const Container = styled.ScrollView`
+  margin: 20px;
+`;
+
 const Title = styled.Text`
   font-size: 24px;
   text-align: center;
@@ -72,42 +63,42 @@ const Title = styled.Text`
   margin-bottom: 10px;
 `;
 
+const Input = styled.TextInput`
+  height: 40px;
+  border-color: gray;
+  border-width: 1px;
+  margin-bottom: 10px;
+  padding-horizontal: 10px;
+`;
+
+const Button = styled.TouchableOpacity`
+  background-color: lightblue;
+  padding-vertical: 10px;
+  padding-horizontal: 20px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+`;
+
+const ButtonText = styled.Text`
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+`;
+
 const Temperature = styled.Text`
   font-size: 20px;
   font-weight: bold;
   margin-bottom: 10px;
 `;
 
-const Container = styled.View`
-  height: 250px;
-  margin: 20px;
+const Description = styled.Text`
+  margin-bottom: 10px;
 `;
 
-const CardContainer = styled.View`
-  margin-bottom: 20px;
+const NoResults = styled.Text`
+  margin-top: 20px;
+  text-align: center;
 `;
-
-const styles = {
-  input: {
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
-    marginBottom: 10,
-    paddingHorizontal: 10,
-  },
-  button: {
-    backgroundColor: 'lightblue',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 5,
-    marginBottom: 10,
-  },
-  buttonText: {
-    color: 'white',
-    fontSize: 16,
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-};
 
 export default WeatherSearch;

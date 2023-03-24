@@ -9,7 +9,6 @@ const API_URL =
   'https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/';
 const API_KEY = '7TACGF6DYJ2YQBNDDSQTG27JM';
 
-// List of cities to display weather data for
 const CITIES = [
   {
     name: 'Paris',
@@ -72,7 +71,6 @@ const Cities = () => {
   const [weatherData, setWeatherData] = useState([]);
   const [favourites, setFavourites] = useState([]);
 
-  // Fetch weather data for all cities on mount
   useEffect(() => {
     const fetchData = async () => {
       const promises = CITIES.map(city =>
@@ -107,7 +105,7 @@ const Cities = () => {
   );
 };
 
-// Styled components
+// Style
 const Title = styled.Text`
   font-size: 24px;
   text-align: center;
