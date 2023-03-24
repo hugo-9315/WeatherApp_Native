@@ -1,11 +1,17 @@
 import React from 'react';
 import Header from './components/Header';
-import {Text} from 'react-native';
+import Cities from './components/Cities';
+import Search from './components/Search';
+import {ScrollView, Text} from 'react-native';
 
 const App = () => {
   return (
     <>
-      <Header />
+      <ScrollView>
+        <Header />
+        <Search />
+        <Cities />
+      </ScrollView>
     </>
   );
 };
